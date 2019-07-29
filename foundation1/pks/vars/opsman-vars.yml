@@ -1,0 +1,43 @@
+---
+azure-subscription-id: ((azure-subscription-id))
+azure-tenant-id: ((azure-tenant-id))
+azure-client-id: ((azure-client-id))
+azure-client-secret: ((azure-client-secret))
+
+pks-resource-group: pks-pcf-systems
+
+
+pks-opsman-vnet: pks-pcf-systems-virtual-network
+pks-opsman-subnet: pks-pcf-systems-infrastructure-subnet
+pks-network-resource-group: pks-pcf-systems
+pks-opsman-private-ip: 10.0.8.11
+pks-vnet-dns: 168.63.129.16
+pks-vnet-infra-cidr: 10.0.8.0/24
+pks-vnet-infra-reserved: 10.0.8.1-10.0.8.9
+pks-vnet-infra-gateway: 10.0.8.1
+pks-vnet-management-cidr: 10.0.12.0/22
+pks-vnet-management-reserved: 10.0.12.1-10.0.12.9
+pks-vnet-management-gateway: 10.0.12.1
+pks-vnet-services-cidr: 10.0.16.0/22
+pks-vnet-services-reserved: 10.0.16.1-10.0.16.9
+pks-vnet-services-gateway: 10.0.16.1
+
+pks-opsman-security-group: pks-pcf-systems-ops-manager-security-group
+pks-opsman-storage-account: w9md7mi23y0j5ocpyb1a
+pks-opsman-vm-name: ops-manager-pks
+pks-opsman-location: eastus
+
+pks-bosh-storage-account: iefown4vzlcadzp3k3zg
+availability_mode: availability_zones
+
+pks-opsman-ssh-key:
+  private_key: ((pks-opsman-ssh-key.private_key))
+  public_key: ((pks-opsman-ssh-key.public_key))
+
+pks-api-cert: ((pks-api-cert))
+
+pks-api-security-group: pks-pcf-systems-bosh-deployed-vms-security-group
+pks-vm-availability-set: pks-pcf-systems-availability-set
+pks-api-hostname: api.pks.pcf.systems
+pks-api-service-network: pcf-services
+pks-api-lb-name: pks-pcf-systems-pks-lb

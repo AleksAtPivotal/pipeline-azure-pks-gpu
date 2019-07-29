@@ -1,0 +1,244 @@
+---
+
+get-job-context: &get-job-context 
+  aggregate:
+    - get: platform-automation-image
+      resource: platform-automation
+      params:
+        globs: ["*image*.tgz"]
+        unpack: true
+    - get: platform-automation-tasks
+      resource: platform-automation
+      params:
+        globs: ["*tasks*.zip"]
+        unpack: true
+    - get: config
+
+interpolate-vars: &interpolate-vars
+  task: credhub-interpolate
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: config
+  output_mapping:
+    interpolated-files: interpolated-files
+  params:
+    CREDHUB_SERVER: ((credhub-server))
+    CREDHUB_CA_CERT: ((credhub-ca-cert))
+    CREDHUB_CLIENT: ((credhub-client))
+    CREDHUB_SECRET: ((credhub-secret))
+    PREFIX: "/concourse/main/((env_name))-pks-pipeline/"
+    INTERPOLATION_PATHS: common/product-downloads ((env_name))/pks/vars ((env_name))/pks/env 
+
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+- name: git
+  type: docker-image
+  source:
+    repository: concourse/git-resource
+    tag: latest
+
+resources:
+- name: platform-automation
+  type: pivnet
+  source:
+    product_slug: platform-automation
+    api_token: ((pivnet-token))
+
+- name: config
+  type: git
+  source:
+    uri: ((pipeline-repo))
+    username: ((pks-git-username))
+    password: ((pks-git-password))
+    branch: master
+
+- name: one-time-trigger
+  type: time
+  source:
+    interval: 999999h
+
+jobs:
+- name: install-ops-manager
+  serial: true
+  plan:
+    - get: one-time-trigger
+      trigger: true
+    - *get-job-context
+    - *interpolate-vars
+
+    - task: download-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product.yml
+      input_mapping:
+        config: interpolated-files
+      params:
+        CONFIG_FILE: common/product-downloads/ops-manager.yml
+
+    - task: create-vm
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/create-vm.yml
+      input_mapping:
+        state: config
+        image: downloaded-product
+        config: config
+        vars: interpolated-files
+      output_mapping:
+        generated-state: generated-state
+      params:
+        STATE_FILE: ((env_name))/pks/state/opsman-state.yml
+        OPSMAN_CONFIG_FILE: common/config/opsman.yml
+        VARS_FILES: vars/((env_name))/pks/vars/opsman-vars.yml
+      ensure:
+        do:
+          - task: make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: config
+              file-source: generated-state
+            output_mapping:
+              repository-commit: config-commit
+            params:
+              FILE_SOURCE_PATH: opsman-state.yml
+              FILE_DESTINATION_PATH: ((env_name))/pks/state/opsman-state.yml
+              GIT_AUTHOR_EMAIL: "pcf-pipeline-bot@example.com"
+              GIT_AUTHOR_NAME: "Platform Automation Bot"
+              COMMIT_MESSAGE: 'Update state file'
+          - put: config
+            params:
+              repository: config-commit
+              merge: true
+
+- name: configure-opsman-auth
+  serial: true
+  plan:
+    - get: one-time-trigger
+      trigger: true
+      passed: [install-ops-manager]
+    - *get-job-context
+    - *interpolate-vars
+
+    - task: configure-saml-authentication
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-saml-authentication.yml
+      input_mapping:
+        config: interpolated-files
+        env: interpolated-files
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+        AUTH_CONFIG_FILE: ((env_name))/pks/env/auth-saml.yml
+
+# For now, the subsequent steps require the manual creation of a 'client' (i.e service account) in opsman's UAA,
+# so that Concourse can deploy bosh and PKS automatically.
+- name: deploy-bosh-director
+  serial: true
+  plan:
+    - get: one-time-trigger
+      trigger: true
+      passed: [configure-opsman-auth]
+    - *get-job-context
+    - *interpolate-vars
+
+    - task: configure-director
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-director.yml
+      input_mapping:
+        config: config
+        env: interpolated-files
+        vars: interpolated-files
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+        DIRECTOR_CONFIG_FILE: common/config/director.yml
+        VARS_FILES: vars/((env_name))/pks/vars/opsman-vars.yml
+
+    - task: apply-director-changes
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/apply-director-changes.yml
+      input_mapping:
+        env: interpolated-files
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+
+- name: configure-pks
+  serial: true
+  plan:
+    - get: one-time-trigger
+      trigger: true
+      passed: [deploy-bosh-director]
+    - *get-job-context
+    - *interpolate-vars
+
+    # This downloads the required stemcell as well
+    - task: download-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product.yml
+      input_mapping:
+        config: interpolated-files
+      output_mapping:
+        downloaded-product: downloaded-product
+        downloaded-stemcell: downloaded-stemcell
+      params:
+        CONFIG_FILE: common/product-downloads/pks.yml
+
+    - task: upload-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-product.yml
+      input_mapping:
+        env: interpolated-files
+        product: downloaded-product
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+
+    - task: upload-stemcell
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-stemcell.yml
+      input_mapping:
+        env: interpolated-files
+        stemcell: downloaded-stemcell
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml   
+
+    - task: stage-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/stage-product.yml
+      input_mapping:
+        env: interpolated-files
+        product: downloaded-product
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+
+    - task: configure-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-product.yml
+      input_mapping:
+        env: interpolated-files
+        config: config
+        vars: interpolated-files
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+        CONFIG_FILE: common/config/pks.yml
+        VARS_FILES: vars/((env_name))/pks/vars/opsman-vars.yml
+
+- name: apply-opsman-changes
+  serial: true
+  plan:
+    - get: one-time-trigger
+      trigger: true
+      passed: [configure-pks]
+    - *get-job-context
+    - *interpolate-vars
+
+    - task: apply-opsman-changes
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/apply-changes.yml
+      input_mapping:
+        env: interpolated-files
+      params:
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+
