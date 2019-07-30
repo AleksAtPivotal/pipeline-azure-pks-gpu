@@ -25,7 +25,7 @@ networks-configuration:
   networks:
   - name: infrastructure
     subnets:
-    - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pcf-infra
+    - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pks-pcf-systems-infrastructure-subnet
       cidr: ((pks-vnet-infra-cidr))
       dns: ((pks-vnet-dns))
       gateway: ((pks-vnet-infra-gateway))
@@ -34,7 +34,7 @@ networks-configuration:
 #      - "null"
   - name: management
     subnets:
-    - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pks-management
+    - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pks-pcf-systems-pks-subnet
       cidr: ((pks-vnet-management-cidr))
       dns: ((pks-vnet-dns))
       gateway: ((pks-vnet-management-gateway))
@@ -43,7 +43,7 @@ networks-configuration:
 #      - "null"
   - name: pcf-services
     subnets:
-    - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pcf-services
+    - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pks-pcf-systems-pks-services-subnet
       cidr: ((pks-vnet-services-cidr))
       dns: ((pks-vnet-dns))
       gateway: ((pks-vnet-services-gateway))
