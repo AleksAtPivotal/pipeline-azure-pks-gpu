@@ -18,8 +18,8 @@ network-assignment:
   network:
     name: infrastructure
   other_availability_zones: []
-  singleton_availability_zone:
-    name: "null"
+#  singleton_availability_zone:
+#    name: "null"
 networks-configuration:
   icmp_checks_enabled: false
   networks:
@@ -30,8 +30,8 @@ networks-configuration:
       dns: ((pks-vnet-dns))
       gateway: ((pks-vnet-infra-gateway))
       reserved_ip_ranges: ((pks-vnet-infra-reserved))
-      availability_zone_names:
-      - "null"
+#      availability_zone_names:
+#      - "null"
   - name: management
     subnets:
     - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pks-management
@@ -39,8 +39,8 @@ networks-configuration:
       dns: ((pks-vnet-dns))
       gateway: ((pks-vnet-management-gateway))
       reserved_ip_ranges: ((pks-vnet-management-reserved))
-      availability_zone_names:
-      - "null"
+#      availability_zone_names:
+#      - "null"
   - name: pcf-services
     subnets:
     - iaas_identifier: ((pks-network-resource-group))/((pks-opsman-vnet))/pcf-services
@@ -48,8 +48,8 @@ networks-configuration:
       dns: ((pks-vnet-dns))
       gateway: ((pks-vnet-services-gateway))
       reserved_ip_ranges: ((pks-vnet-services-reserved))
-      availability_zone_names:
-      - "null"
+#      availability_zone_names:
+#      - "null"
 properties-configuration:
   director_configuration:
     blobstore_type: local
