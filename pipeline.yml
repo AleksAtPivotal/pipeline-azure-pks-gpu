@@ -50,6 +50,7 @@ resources:
     product_slug: platform-automation
     api_token: ((pivnet-token))
 
+
 - name: config
   type: git
   source:
@@ -98,7 +99,7 @@ jobs:
         do:
           - task: make-commit
             image: platform-automation-image
-            file: platform-automation-tasks/tasks/make-git-commit.yml
+            file: config/tasks/make-git-commit.yml
             input_mapping:
               repository: config
               file-source: generated-state
