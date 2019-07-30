@@ -134,7 +134,8 @@ jobs:
         env: interpolated-files
       params:
         ENV_FILE: ((env_name))/pks/env/opsman-env.yml
-        AUTH_CONFIG_FILE: ((env_name))/pks/env/auth-saml.yml
+        #AUTH_CONFIG_FILE: ((env_name))/pks/env/auth-saml.yml
+        AUTH_CONFIG_FILE: ((env_name))/pks/env/auth.yml
 
 # For now, the subsequent steps require the manual creation of a 'client' (i.e service account) in opsman's UAA,
 # so that Concourse can deploy bosh and PKS automatically.
