@@ -127,7 +127,8 @@ jobs:
 
     - task: configure-saml-authentication
       image: platform-automation-image
-      file: platform-automation-tasks/tasks/configure-saml-authentication.yml
+      #file: platform-automation-tasks/tasks/configure-saml-authentication.yml
+      file: platform-automation-tasks/tasks/configure-authentication.yml
       input_mapping:
         config: interpolated-files
         env: interpolated-files
