@@ -3,8 +3,8 @@ target: pcf.pks.pcf.systems
 connect-timeout: 30            # default 5
 request-timeout: 1800          # default 1800
 skip-ssl-validation: true     # default false
-client-id: ((opsman-uaa-client.username))
-client-secret: ((opsman-uaa-client.password))
+username: ((opsman-uaa-client.username))
+password: ((opsman-uaa-client.password))
 # decryption-passphrase is optional,
 # except for use with `import-installation`.
 # OpsMan depends on the passphrase
@@ -13,3 +13,4 @@ client-secret: ((opsman-uaa-client.password))
 # decryption of the OpsMan VM after reboot,
 # which would otherwise need to be done manually.
 # decryption-passphrase: passphrase
+decryption-passphrase: "((pks-opsman-decryption-passphrase))"
