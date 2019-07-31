@@ -50,7 +50,6 @@ resources:
     product_slug: platform-automation
     api_token: ((pivnet-token))
 
-
 - name: config
   type: git
   source:
@@ -167,13 +166,32 @@ jobs:
         env: interpolated-files
       params:
         ENV_FILE: ((env_name))/pks/env/opsman-env.yml
+- name: add-custom-vmtypes
+  serial: true
+  plan:
+    - get: one-time-trigger
+      trigger: true
+      passed: [deploy-bosh-director]
+    - *get-job-context
+    - *interpolate-vars
+
+    # This downloads the required stemcell as well
+    - task: add-custom-vmtypes
+      image: platform-automation-image
+      file: config/tasks/make-custom-vm.yml
+      input_mapping:
+        env: interpolated-files
+        config: config
+      params:
+        CONFIG_FILE: config/((env_name))/pks/vars/custom-vm.json
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
 
 - name: configure-pks
   serial: true
   plan:
     - get: one-time-trigger
       trigger: true
-      passed: [deploy-bosh-director]
+      passed: [add-custom-vmtypes]
     - *get-job-context
     - *interpolate-vars
 
@@ -188,6 +206,18 @@ jobs:
         downloaded-stemcell: downloaded-stemcell
       params:
         CONFIG_FILE: common/product-downloads/pks.yml
+
+    # - task: download-stemcell-gpu
+    #   image: platform-automation-image
+    #   file: platform-automation-tasks/tasks/download-product.yml
+    #   input_mapping:
+    #     config: interpolated-files
+    #   output_mapping:
+    #     downloaded-product: downloaded-product
+    #     downloaded-stemcell: downloaded-stemcell
+    #   params:
+    #     VARS_FILES: common/product-downloads/pks.yml
+    #     CONFIG_FILE: common/product-downloads/pks-stemcell.yml
 
     - task: upload-product
       image: platform-automation-image
@@ -205,7 +235,7 @@ jobs:
         env: interpolated-files
         stemcell: downloaded-stemcell
       params:
-        ENV_FILE: ((env_name))/pks/env/opsman-env.yml   
+        ENV_FILE: ((env_name))/pks/env/opsman-env.yml
 
     - task: stage-product
       image: platform-automation-image

@@ -1,0 +1,42 @@
+# The inputs, outputs, params, filename, and filepath
+# of this task file are part of its semantically versioned API.
+# See our documentation for a detailed discussion of our semver API.
+# See www.semver.org for an explanation of semantic versioning.
+
+# code_snippet make-git-commit start yaml
+---
+platform: linux
+
+inputs:
+- name: env # contains the env file with target OpsMan Information
+- name: config # variable files to be made available
+
+params:
+  CONFIG_FILE:
+  # - Required
+  # - Filepath to the product configuration vars yaml file
+  # - The path is relative to root of the task build,
+  #   so `vars` and `secrets` can be used.
+
+  ENV_FILE: env.yml
+  # - Required
+  # - Filepath of the env config YAML
+  # - The path is relative to root of the `env` input
+
+
+run:
+  path: bash
+  args:
+    - "-c"
+    - |
+      cat /var/version && echo ""
+      export HOME=${PWD}
+      set -eu
+      set -x
+
+      curl https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -L --output ./jq
+      chmod +x ./jq
+
+      om --env env/"${ENV_FILE}" \
+        curl -x PUT --path /api/v0/vm_types \
+        --data "$(./jq -c '.' $CONFIG_FILE)"
