@@ -35,18 +35,4 @@ run:
 
       om --env env/"${ENV_FILE}" \
         curl -x PUT --path /api/v0/vm_types \
-        --data "$(jq -c '.'  
-
-      
-      om curl \
-        --target $om_server \
-        --username $om_user \
-        --password $om_password \
-        --skip-ssl-validation \
-        curl -x PUT --path /api/v0/vm_types \
-        --data "$(jq -c '.'  large_list.json)"
-
-      om download-product  \
-       --config config/"${CONFIG_FILE}" ${vars_files_args[@]} \
-       --output-directory downloaded-files \
-       --source s3
+        --data "$(jq -c '.' $VARS_FILES)"" 

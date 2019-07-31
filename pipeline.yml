@@ -181,7 +181,8 @@ jobs:
       image: platform-automation-image
       file: config/tasks/make-custom-vm.yml
       input_mapping:
-        config: interpolated-files
+        env: interpolated-files
+        vars: interpolated-files
       params:
         VARS_FILES: vars/((env_name))/pks/vars/custom-vm.json
         ENV_FILE: ((env_name))/pks/env/opsman-env.yml
