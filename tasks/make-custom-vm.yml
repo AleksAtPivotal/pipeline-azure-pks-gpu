@@ -9,10 +9,10 @@ platform: linux
 
 inputs:
 - name: env # contains the env file with target OpsMan Information
-- name: vars # variable files to be made available
+- name: config # variable files to be made available
 
 params:
-  VARS_FILES:
+  CONFIG_FILE:
   # - Required
   # - Filepath to the product configuration vars yaml file
   # - The path is relative to root of the task build,
@@ -35,4 +35,4 @@ run:
 
       om --env env/"${ENV_FILE}" \
         curl -x PUT --path /api/v0/vm_types \
-        --data "$(cat $VARS_FILES)" 
+        --data "$(cat $CONFIG_FILE)" 

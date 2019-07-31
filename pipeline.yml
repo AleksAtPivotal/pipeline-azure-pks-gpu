@@ -181,9 +181,9 @@ jobs:
       file: config/tasks/make-custom-vm.yml
       input_mapping:
         env: interpolated-files
-        vars: interpolated-files
+        config: config
       params:
-        VARS_FILES: vars/((env_name))/pks/vars/custom-vm.yml
+        CONFIG_FILE: config/((env_name))/pks/vars/custom-vm.yml
         ENV_FILE: ((env_name))/pks/env/opsman-env.yml
 
 - name: configure-pks
