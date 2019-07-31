@@ -32,6 +32,7 @@ run:
       cat /var/version && echo ""
       export HOME=${PWD}
       set -eu
+      set -x
 
       om --env env/"${ENV_FILE}" \
         curl -x PUT --path /api/v0/vm_types \
