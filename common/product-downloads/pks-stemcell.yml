@@ -24,3 +24,4 @@ s3-stemcell-path: /pks
 ## defaults to accesskey;
 ## allows use of AWS instance IAM creds, if available
 s3-auth-type: iam
+pivnet-file-glob: "*.pivotal"
