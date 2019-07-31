@@ -39,4 +39,4 @@ run:
 
       om --env env/"${ENV_FILE}" \
         curl -x PUT --path /api/v0/vm_types \
-        --data "$(jq -c '.' $CONFIG_FILE"
+        --data "$(jq -c '.' $CONFIG_FILE)"
