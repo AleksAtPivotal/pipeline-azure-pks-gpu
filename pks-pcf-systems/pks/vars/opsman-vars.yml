@@ -5,7 +5,7 @@ azure-client-id: ((azure-client-id))
 azure-client-secret: ((azure-client-secret))
 
 pks-resource-group: pks-pcf-systems
-
+default_security_group: pks-pcf-systems-bosh-deployed-vms-security-group
 
 pks-opsman-vnet: pks-pcf-systems-virtual-network
 pks-opsman-subnet: pks-pcf-systems-infrastructure-subnet

@@ -5,7 +5,6 @@ env_name: pks-pcf-systems
 
 pipeline-repo: https://github.com/alekssaul/pipeline-azure-pks-gpu
 
-
 credhub-server: concourse.pcf.systems:8844
 credhub-ca-cert: |
     -----BEGIN CERTIFICATE-----

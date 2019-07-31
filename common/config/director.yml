@@ -14,6 +14,7 @@ iaas-configurations:
   storage_account_type: Premium_LRS
   subscription_id: ((azure-subscription-id))
   tenant_id: ((azure-tenant-id))
+  default_security_group: ((default_security_group))
 network-assignment:
   network:
     name: infrastructure
