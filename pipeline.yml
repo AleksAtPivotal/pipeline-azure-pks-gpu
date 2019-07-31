@@ -183,7 +183,7 @@ jobs:
         env: interpolated-files
         config: config
       params:
-        CONFIG_FILE: config/((env_name))/pks/vars/custom-vm.yml
+        CONFIG_FILE: config/((env_name))/pks/vars/custom-vm.json
         ENV_FILE: ((env_name))/pks/env/opsman-env.yml
 
 - name: configure-pks

@@ -32,11 +32,11 @@ run:
       cat /var/version && echo ""
       export HOME=${PWD}
       set -eu
+      set -x
 
       curl https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -L --output ./jq
       chmod +x ./jq
-      alias jq="${PWD}/jq"    
 
       om --env env/"${ENV_FILE}" \
         curl -x PUT --path /api/v0/vm_types \
-        --data "$(jq -c '.' $CONFIG_FILE)"
+        --data "$(./jq -c '.' $CONFIG_FILE)"
