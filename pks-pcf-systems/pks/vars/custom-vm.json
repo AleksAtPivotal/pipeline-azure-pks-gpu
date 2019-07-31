@@ -1,0 +1,101 @@
+{
+    "vm_types": [
+      {
+        "name": "Standard_DS1_v2",
+        "ram": 3584,
+        "cpu": 1,
+        "ephemeral_disk": 51200,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS2_v2",
+        "ram": 7168,
+        "cpu": 2,
+        "ephemeral_disk": 102400,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS3_v2",
+        "ram": 14336,
+        "cpu": 4,
+        "ephemeral_disk": 204800,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS4_v2",
+        "ram": 28672,
+        "cpu": 8,
+        "ephemeral_disk": 409600,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS5_v2",
+        "ram": 57344,
+        "cpu": 8,
+        "ephemeral_disk": 819200,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS11_v2",
+        "ram": 14336,
+        "cpu": 2,
+        "ephemeral_disk": 102400,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS12_v2",
+        "ram": 28672,
+        "cpu": 4,
+        "ephemeral_disk": 204800,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS13_v2",
+        "ram": 57344,
+        "cpu": 8,
+        "ephemeral_disk": 409600,
+        "builtin": true
+      },
+      {
+        "name": "Standard_DS14_v2",
+        "ram": 114688,
+        "cpu": 16,
+        "ephemeral_disk": 819200,
+        "builtin": true
+      },
+      {
+        "name": "Standard_F1s",
+        "ram": 2048,
+        "cpu": 1,
+        "ephemeral_disk": 16384,
+        "builtin": true
+      },
+      {
+        "name": "Standard_F2s",
+        "ram": 4096,
+        "cpu": 2,
+        "ephemeral_disk": 32768,
+        "builtin": true
+      },
+      {
+        "name": "Standard_F4s",
+        "ram": 8192,
+        "cpu": 4,
+        "ephemeral_disk": 65536,
+        "builtin": true
+      },
+      {
+        "name": "Standard_F8s",
+        "ram": 16384,
+        "cpu": 8,
+        "ephemeral_disk": 131072,
+        "builtin": true
+      },
+      {
+        "name": "Standard_NC6s_v2",
+        "ram": 114688,
+        "ephemeral_disk": 344064,
+        "cpu": 6
+    }
+    ]
+  }
