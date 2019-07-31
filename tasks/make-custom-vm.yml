@@ -35,4 +35,4 @@ run:
 
       om --env env/"${ENV_FILE}" \
         curl -x PUT --path /api/v0/vm_types \
-        --data "$(jq -c '.' $VARS_FILES)" 
+        --data "$(cat $VARS_FILES)" 
