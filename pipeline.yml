@@ -207,17 +207,15 @@ jobs:
       params:
         CONFIG_FILE: common/product-downloads/pks.yml
 
-    # - task: download-stemcell-gpu
-    #   image: platform-automation-image
-    #   file: platform-automation-tasks/tasks/download-product.yml
-    #   input_mapping:
-    #     config: interpolated-files
-    #   output_mapping:
-    #     downloaded-product: downloaded-product
-    #     downloaded-stemcell: downloaded-stemcell
-    #   params:
-    #     VARS_FILES: common/product-downloads/pks.yml
-    #     CONFIG_FILE: common/product-downloads/pks-stemcell.yml
+    - task: download-stemcell-gpu
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product-s3.yml
+      input_mapping:
+        config: interpolated-files
+      output_mapping:
+        downloaded-stemcell: downloaded-stemcell
+      params:
+        CONFIG_FILE: common/product-downloads/pks-stemcell.yml
 
     - task: upload-product
       image: platform-automation-image
