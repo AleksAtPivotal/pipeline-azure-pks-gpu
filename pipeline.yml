@@ -50,7 +50,6 @@ resources:
     product_slug: platform-automation
     api_token: ((pivnet-token))
 
-
 - name: config
   type: git
   source:
@@ -184,7 +183,7 @@ jobs:
         env: interpolated-files
         vars: interpolated-files
       params:
-        VARS_FILES: vars/((env_name))/pks/vars/custom-vm.json
+        VARS_FILES: vars/((env_name))/pks/vars/custom-vm.yml
         ENV_FILE: ((env_name))/pks/env/opsman-env.yml
 
 - name: configure-pks
