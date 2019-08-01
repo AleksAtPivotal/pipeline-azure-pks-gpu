@@ -58,9 +58,7 @@ product-properties:
       recommended for production workloads.'
   .properties.plan1_selector.active.master_az_placement:
     value:
-    - zone-1
-    - zone-2
-    - zone-3
+    - Availability Sets
   .properties.plan1_selector.active.master_instances:
     value: 1
   .properties.plan1_selector.active.max_worker_instances:
@@ -69,9 +67,7 @@ product-properties:
     value: small
   .properties.plan1_selector.active.worker_az_placement:
     value:
-    - zone-1
-    - zone-2
-    - zone-3
+    - Availability Sets
   .properties.plan1_selector.active.worker_instances:
     value: 3
   .properties.plan2_selector:
@@ -84,9 +80,7 @@ product-properties:
       for more pods.'
   .properties.plan2_selector.active.master_az_placement:
     value:
-    - zone-1
-    - zone-2
-    - zone-3
+    - Availability Sets
   .properties.plan2_selector.active.master_instances:
     value: 3
   .properties.plan2_selector.active.max_worker_instances:
@@ -95,9 +89,7 @@ product-properties:
     value: medium
   .properties.plan2_selector.active.worker_az_placement:
     value:
-    - zone-1
-    - zone-2
-    - zone-3
+    - Availability Sets
   .properties.plan2_selector.active.worker_instances:
     value: 5
   .properties.plan3_selector:
@@ -122,8 +114,78 @@ product-properties:
     selected_option: inactive
     value: Plan Inactive
   .properties.plan10_selector:
-    selected_option: inactive
-    value: Plan Inactive
+    selected_option: active
+    value: Plan Active
+  .properties.plan10_selector.active.addons_spec:
+    value: "# Copyright 2017 Google Inc. All rights reserved.\r\n#\r\n# Licensed under
+      the Apache License, Version 2.0 (the \"License\");\r\n# you may not use this
+      file except in compliance with the License.\r\n# You may obtain a copy of the
+      License at\r\n#\r\n#     http://www.apache.org/licenses/LICENSE-2.0\r\n#\r\n#
+      Unless required by applicable law or agreed to in writing, software\r\n# distributed
+      under the License is distributed on an \"AS IS\" BASIS,\r\n# WITHOUT WARRANTIES
+      OR CONDITIONS OF ANY KIND, either express or implied.\r\n# See the License for
+      the specific language governing permissions and\r\n# limitations under the License.\r\n---\r\napiVersion:
+      apps/v1\r\nkind: DaemonSet\r\nmetadata:\r\n  name: nvidia-driver-installer\r\n
+      \ namespace: kube-system\r\n  labels:\r\n    k8s-app: nvidia-driver-installer\r\nspec:\r\n
+      \ selector:\r\n    matchLabels:\r\n      k8s-app: nvidia-driver-installer\r\n
+      \ updateStrategy:\r\n    type: RollingUpdate\r\n  template:\r\n    metadata:\r\n
+      \     labels:\r\n        name: nvidia-driver-installer\r\n        k8s-app: nvidia-driver-installer\r\n
+      \   spec:\r\n      volumes:\r\n      - name: dev\r\n        hostPath:\r\n          path:
+      /dev\r\n      - name: nvidia-install-dir-host\r\n        hostPath:\r\n          path:
+      /var/vcap/packages/kubernetes-nvidia\r\n      - name: root-mount\r\n        hostPath:\r\n
+      \         path: /\r\n      - name: modules\r\n        hostPath:\r\n          path:
+      /lib/modules/\r\n      initContainers:\r\n      - name: modprobe\r\n        image:
+      nvidia/driver:418.40.04-ubuntu16.04\r\n        command: [\"/sbin/modprobe\"]
+      \r\n        args: [\"ipmi_msghandler\"]\r\n        securityContext:\r\n          privileged:
+      true\r\n        volumeMounts:\r\n        - name: modules\r\n          mountPath:
+      /lib/modules/\r\n      - image: gcr.io/google-containers/ubuntu-nvidia-driver-installer@sha256:86990c870fdc3e710393f8c992337715254012707d46e2f03233d2e10977c232\r\n
+      \       name: nvidia-driver-installer\r\n        resources:\r\n          requests:\r\n
+      \           cpu: 0.15\r\n        securityContext:\r\n          privileged: true\r\n
+      \       env:\r\n          - name: NVIDIA_INSTALL_DIR_HOST\r\n            value:
+      /var/vcap/packages/kubernetes-nvidia\r\n          - name: NVIDIA_INSTALL_DIR_CONTAINER\r\n
+      \           value: /usr/local/nvidia\r\n          - name: ROOT_MOUNT_DIR\r\n
+      \           value: /root\r\n          - name: NVIDIA_DRIVER_VERSION\r\n            value:
+      \"418.67\"\r\n        volumeMounts:\r\n        - name: nvidia-install-dir-host\r\n
+      \         mountPath: /usr/local/nvidia\r\n        - name: dev\r\n          mountPath:
+      /dev\r\n        - name: root-mount\r\n          mountPath: /root\r\n      containers:\r\n
+      \     - image: \"gcr.io/google-containers/pause:2.0\"\r\n        name: pause\r\n---\r\napiVersion:
+      extensions/v1beta1\r\nkind: DaemonSet\r\nmetadata:\r\n  name: nvidia-gpu-device-plugin\r\n
+      \ namespace: kube-system\r\n  labels:\r\n    k8s-app: nvidia-gpu-device-plugin\r\nspec:\r\n
+      \ template:\r\n    metadata:\r\n      labels:\r\n        k8s-app: nvidia-gpu-device-plugin\r\n
+      \     annotations:\r\n        scheduler.alpha.kubernetes.io/critical-pod: ''\r\n
+      \   spec:\r\n      priorityClassName: system-node-critical\r\n      volumes:\r\n
+      \     - name: device-plugin\r\n        hostPath:\r\n          path: /var/lib/kubelet/device-plugins\r\n
+      \     - name: dev\r\n        hostPath:\r\n          path: /dev\r\n      containers:\r\n
+      \     - image: \"k8s.gcr.io/nvidia-gpu-device-plugin@sha256:08509a36233c5096bb273a492251a9a5ca28558ab36d74007ca2a9d3f0b61e1d\"\r\n
+      \       command: [\"/usr/bin/nvidia-gpu-device-plugin\", \"-logtostderr\", \"-host-path=/var/vcap/packages/kubernetes-nvidia\"]\r\n
+      \       name: nvidia-gpu-device-plugin\r\n        resources:\r\n          requests:\r\n
+      \           cpu: 50m\r\n            memory: 10Mi\r\n          limits:\r\n            cpu:
+      50m\r\n            memory: 10Mi\r\n        securityContext:\r\n          privileged:
+      true\r\n        volumeMounts:\r\n        - name: device-plugin\r\n          mountPath:
+      /device-plugin\r\n        - name: dev\r\n          mountPath: /dev\r\n  updateStrategy:\r\n
+      \   type: RollingUpdate"
+  .properties.plan10_selector.active.allow_privileged_containers:
+    value: true
+  .properties.plan10_selector.active.description:
+    value: GPU workload test plan
+  .properties.plan10_selector.active.master_az_placement:
+    value:
+    - Availability Sets
+  .properties.plan10_selector.active.master_instances:
+    value: 1
+  .properties.plan10_selector.active.master_persistent_disk_type:
+    value: "30720"
+  .properties.plan10_selector.active.max_worker_instances:
+    value: 50
+  .properties.plan10_selector.active.name:
+    value: gpu
+  .properties.plan10_selector.active.worker_az_placement:
+    value:
+    - Availability Sets
+  .properties.plan10_selector.active.worker_instances:
+    value: 1
+  .properties.plan10_selector.active.worker_vm_type:
+    value: Standard_NC6s_v2
   .properties.proxy_selector:
     selected_option: disabled
     value: Disabled
@@ -151,13 +213,11 @@ network-properties:
   network:
     name: management
   other_availability_zones:
-  - name: zone-1
-  - name: zone-2
-  - name: zone-3
+  - name: Availability Sets
   service_network:
     name: ((pks-api-service-network))
   singleton_availability_zone:
-    name: zone-1
+    name: Availability Sets
 resource-config:
   pivotal-container-service:
     instances: automatic
