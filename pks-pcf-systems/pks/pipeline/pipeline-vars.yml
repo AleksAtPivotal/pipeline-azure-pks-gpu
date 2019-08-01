@@ -61,3 +61,5 @@ credhub-ca-cert: |
   yeNHEc8tQJF7ZVfVvP9mho+5Zrc+/iI=
   -----END CERTIFICATE-----
 credhub-client: credhub-admin
+
+gpu-stemcell-url: https://pivotal-alekssaul.s3.amazonaws.com/pks/bosh-stemcell-250.25-azure-hyperv-ubuntu-xenial-go_agent.tgz

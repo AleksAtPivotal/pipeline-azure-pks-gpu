@@ -1,0 +1,23 @@
+---
+platform: linux
+
+outputs:
+- name: downloaded-stemcell
+
+params:
+  STEMCELL_URL: 
+  # - Required
+  # - Filepath to the product configuration yaml file
+  # - The path is relative to the root of the `config` input
+
+run:
+  path: bash
+  args:
+  - "-c"
+  - |
+    cat /var/version && echo ""
+    set -eux
+
+    rm -rf downloaded-stemcell/*
+    pushd downloaded-stemcell
+    curl -O $STEMCELL_URL 

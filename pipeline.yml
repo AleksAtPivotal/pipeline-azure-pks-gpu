@@ -209,13 +209,11 @@ jobs:
 
     - task: download-stemcell-gpu
       image: platform-automation-image
-      file: platform-automation-tasks/tasks/download-product-s3.yml
-      input_mapping:
-        config: interpolated-files
+      file: config/tasks/download-stemcell-s3.yml
       output_mapping:
         downloaded-stemcell: downloaded-stemcell
       params:
-        CONFIG_FILE: common/product-downloads/pks-stemcell.yml
+        STEMCELL_URL: ((gpu-stemcell-url))
 
     - task: upload-product
       image: platform-automation-image
