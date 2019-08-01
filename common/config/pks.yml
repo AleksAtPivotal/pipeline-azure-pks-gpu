@@ -58,7 +58,7 @@ product-properties:
       recommended for production workloads.'
   .properties.plan1_selector.active.master_az_placement:
     value:
-    - Availability Sets
+    - "null"
   .properties.plan1_selector.active.master_instances:
     value: 1
   .properties.plan1_selector.active.max_worker_instances:
@@ -67,7 +67,7 @@ product-properties:
     value: small
   .properties.plan1_selector.active.worker_az_placement:
     value:
-    - Availability Sets
+    - "null"
   .properties.plan1_selector.active.worker_instances:
     value: 3
   .properties.plan2_selector:
@@ -80,7 +80,7 @@ product-properties:
       for more pods.'
   .properties.plan2_selector.active.master_az_placement:
     value:
-    - Availability Sets
+    - "null"
   .properties.plan2_selector.active.master_instances:
     value: 3
   .properties.plan2_selector.active.max_worker_instances:
@@ -89,7 +89,7 @@ product-properties:
     value: medium
   .properties.plan2_selector.active.worker_az_placement:
     value:
-    - Availability Sets
+    - "null"
   .properties.plan2_selector.active.worker_instances:
     value: 5
   .properties.plan3_selector:
@@ -170,7 +170,7 @@ product-properties:
     value: GPU workload test plan
   .properties.plan10_selector.active.master_az_placement:
     value:
-    - Availability Sets
+    - "null"
   .properties.plan10_selector.active.master_instances:
     value: 1
   .properties.plan10_selector.active.master_persistent_disk_type:
@@ -181,7 +181,7 @@ product-properties:
     value: gpu
   .properties.plan10_selector.active.worker_az_placement:
     value:
-    - Availability Sets
+    - "null"
   .properties.plan10_selector.active.worker_instances:
     value: 1
   .properties.plan10_selector.active.worker_vm_type:
@@ -213,11 +213,11 @@ network-properties:
   network:
     name: management
   other_availability_zones:
-  - name: Availability Sets
+  - name: "null"
   service_network:
     name: ((pks-api-service-network))
   singleton_availability_zone:
-    name: Availability Sets
+    name: "null"
 resource-config:
   pivotal-container-service:
     instances: automatic
