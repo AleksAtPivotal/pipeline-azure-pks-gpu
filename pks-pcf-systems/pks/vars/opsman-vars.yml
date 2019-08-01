@@ -13,7 +13,7 @@ pks-network-resource-group: pks-pcf-systems
 pks-opsman-private-ip: 10.0.8.11
 pks-vnet-dns: 168.63.129.16
 pks-vnet-infra-cidr: 10.0.8.0/24
-pks-vnet-infra-reserved: 10.0.8.1-10.0.8.9
+pks-vnet-infra-reserved: 10.0.8.1-10.0.8.12
 pks-vnet-infra-gateway: 10.0.8.1
 pks-vnet-management-cidr: 10.0.12.0/22
 pks-vnet-management-reserved: 10.0.12.1-10.0.12.9
