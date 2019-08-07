@@ -93,8 +93,31 @@ product-properties:
   .properties.plan2_selector.active.worker_instances:
     value: 5
   .properties.plan3_selector:
-    selected_option: inactive
-    value: Plan Inactive
+    selected_option: active
+    value: Plan Active
+  .properties.plan3_selector.active.allow_privileged_containers:
+    value: false
+  .properties.plan3_selector.active.description:
+    value: 'Example: This plan will configure a large kubernetes cluster for resource
+      heavy workloads, or a high number of workloads.'
+  .properties.plan3_selector.active.master_az_placement:
+    value:
+    - "null"
+  .properties.plan3_selector.active.master_instances:
+    value: 1
+  .properties.plan3_selector.active.master_persistent_disk_type:
+    value: "30720"
+  .properties.plan3_selector.active.max_worker_instances:
+    value: 50
+  .properties.plan3_selector.active.name:
+    value: medium-workers
+  .properties.plan3_selector.active.worker_az_placement:
+    value:
+    - "null"
+  .properties.plan3_selector.active.worker_instances:
+    value: 5
+  .properties.plan3_selector.active.worker_vm_type:
+    value: Standard_F4s
   .properties.plan4_selector:
     selected_option: inactive
     value: Plan Inactive
