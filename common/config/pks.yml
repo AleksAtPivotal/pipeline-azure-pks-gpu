@@ -58,7 +58,9 @@ product-properties:
       recommended for production workloads.'
   .properties.plan1_selector.active.master_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan1_selector.active.master_instances:
     value: 1
   .properties.plan1_selector.active.max_worker_instances:
@@ -67,7 +69,9 @@ product-properties:
     value: small
   .properties.plan1_selector.active.worker_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan1_selector.active.worker_instances:
     value: 3
   .properties.plan2_selector:
@@ -80,7 +84,9 @@ product-properties:
       for more pods.'
   .properties.plan2_selector.active.master_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan2_selector.active.master_instances:
     value: 3
   .properties.plan2_selector.active.max_worker_instances:
@@ -89,7 +95,9 @@ product-properties:
     value: medium
   .properties.plan2_selector.active.worker_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan2_selector.active.worker_instances:
     value: 5
   .properties.plan3_selector:
@@ -102,7 +110,9 @@ product-properties:
       heavy workloads, or a high number of workloads.'
   .properties.plan3_selector.active.master_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan3_selector.active.master_instances:
     value: 1
   .properties.plan3_selector.active.master_persistent_disk_type:
@@ -113,7 +123,9 @@ product-properties:
     value: medium-workers
   .properties.plan3_selector.active.worker_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan3_selector.active.worker_instances:
     value: 5
   .properties.plan3_selector.active.worker_vm_type:
@@ -193,7 +205,9 @@ product-properties:
     value: GPU workload test plan
   .properties.plan10_selector.active.master_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan10_selector.active.master_instances:
     value: 1
   .properties.plan10_selector.active.master_persistent_disk_type:
@@ -204,7 +218,9 @@ product-properties:
     value: gpu
   .properties.plan10_selector.active.worker_az_placement:
     value:
-    - "null"
+    - zone-1
+    - zone-2
+    - zone-3
   .properties.plan10_selector.active.worker_instances:
     value: 1
   .properties.plan10_selector.active.worker_vm_type:
@@ -236,11 +252,13 @@ network-properties:
   network:
     name: management
   other_availability_zones:
-  - name: "null"
+  - name: zone-1
+  - name: zone-2
+  - name: zone-3
   service_network:
     name: ((pks-api-service-network))
   singleton_availability_zone:
-    name: "null"
+    name: zone-1
 resource-config:
   pivotal-container-service:
     instances: automatic
