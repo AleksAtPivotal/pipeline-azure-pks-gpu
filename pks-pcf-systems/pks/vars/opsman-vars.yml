@@ -28,7 +28,7 @@ pks-opsman-vm-name: ops-manager-pks
 pks-opsman-location: eastus
 
 pks-bosh-storage-account: iefown4vzlcadzp3k3zg
-availability_mode: availability_sets
+availability_mode: availability_zones
 
 pks-opsman-ssh-key:
   private_key: ((pks-opsman-ssh-key.private_key))
