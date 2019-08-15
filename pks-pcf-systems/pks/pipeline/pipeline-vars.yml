@@ -1,6 +1,4 @@
 ---
-#pipeline-repo: https://github.com/alekssaul/pipeline-azure-pks-gpu
-
 env_name: pks-pcf-systems
 
 pipeline-repo: https://github.com/alekssaul/pipeline-azure-pks-gpu
@@ -33,7 +31,6 @@ credhub-ca-cert: |
   odgFinOJ7AFo5LO6Iyxg9OGhhugsThj5lKi1yU7hj75wM0yEemEHmaMBOWE4SAWV
   Zxl9vsxgfZM=
   -----END CERTIFICATE-----
-
   -----BEGIN CERTIFICATE-----
   MIIEYzCCAsugAwIBAgIQM/Eks0FIaAG0U45HHHqAoDANBgkqhkiG9w0BAQsFADA7
   MQwwCgYDVQQGEwNVU0ExFjAUBgNVBAoTDUNsb3VkIEZvdW5kcnkxEzARBgNVBAMT
@@ -60,9 +57,7 @@ credhub-ca-cert: |
   SyTXgcRLpKbtnjShRnh41oVY6tWa7An+VTHaTUkNksebR2+JVrKs8VdlfyJMNWTn
   ohphV/C5aUDMHkmcWETMADa591x3s9M=
   -----END CERTIFICATE-----
-credhub-client: credhub-admin
 
-gpu-stemcell-url: https://pivotal-alekssaul.s3.amazonaws.com/pks/bosh-stemcell-250.25-azure-hyperv-ubuntu-xenial-go_agent.tgz
 credhub-client: credhub-admin
 
 gpu-stemcell-url: https://pivotal-alekssaul.s3.amazonaws.com/pks/bosh-stemcell-250.25-azure-hyperv-ubuntu-xenial-go_agent.tgz
