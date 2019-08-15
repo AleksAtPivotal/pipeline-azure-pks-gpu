@@ -7,15 +7,6 @@ pipeline-repo: https://github.com/alekssaul/pipeline-azure-pks-gpu
 
 credhub-server: concourse.pcf.systems:8844
 credhub-ca-cert: |
-  ---
-#pipeline-repo: https://github.com/alekssaul/pipeline-azure-pks-gpu
-
-env_name: pks-pcf-systems
-
-pipeline-repo: https://github.com/alekssaul/pipeline-azure-pks-gpu
-
-credhub-server: concourse.pcf.systems:8844
-credhub-ca-cert: |
   -----BEGIN CERTIFICATE-----
   MIIEVDCCArygAwIBAgIRAMyVO4UHZxN4oowOh0xqkvUwDQYJKoZIhvcNAQELBQAw
   MzEMMAoGA1UEBhMDVVNBMRYwFAYDVQQKEw1DbG91ZCBGb3VuZHJ5MQswCQYDVQQD
